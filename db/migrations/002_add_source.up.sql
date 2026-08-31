@@ -1,0 +1,2 @@
+ALTER TABLE words
+    ADD COLUMN source TEXT;
