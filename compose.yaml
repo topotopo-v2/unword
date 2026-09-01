@@ -9,6 +9,15 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgres://unword:unword@postgres:5432/unword?sslmode=disable
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:
