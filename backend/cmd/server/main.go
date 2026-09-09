@@ -13,10 +13,7 @@ import (
 
 func main() {
 	// Get environment
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("No .env file found, using environment variables")
-	}
+	_ = godotenv.Load()
 
 	// Establish connection to PostgresSQL
 	ctx := context.Background()
@@ -24,6 +21,15 @@ func main() {
 	if databaseURL == "" {
 		log.Fatal("DATABASE_URL is not set")
 	}
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	corsOrigin := os.Getenv("CORS_ORIGIN")
+	if corsOrigin == "" {
+		corsOrigin = "http://localhost:5173"
+	}
+
 	pool, err := pgxpool.New(ctx, databaseURL)
 	if err != nil {
 		log.Fatal(err)
@@ -43,43 +49,13 @@ func main() {
 		"/api/words/today",
 		wordHandler.GetToday,
 	)
-
-/* 	// Test insert word
-		wordID := uuid.New()
-		testWord := word.Word{
-			ID:            wordID,
-			Word:          "ubuntu",
-			Pronunciation: "oo-BOON-too",
-			Language:      "Nguni",
-			Country:       "South Africa",
-			CountryCode:   "ZA",
-			Definition:    "A concept associated with humanity, interconnectedness, and community.",
-			WordDate:      time.Date(2026, 8, 31, 0, 0, 0, 0, time.UTC),
-		}
-
-		err = wordRepository.Create(ctx, testWord)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		log.Println("word inserted successfully") */
-
-/* 	// Test get word
-		result, err := wordRepository.GetByDate(
-			ctx,
-			time.Date(2026, 8, 30, 0, 0, 0, 0, time.UTC),
-		)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		log.Printf("found word: %s", result.Word) */
+	http.HandleFunc("/api/words", wordHandler.Words)
 
 	http.Handle("/health", healthHandler(pool))
-	log.Println("server listening on :8080")
+	log.Println("server listening on :" + port)
 
-	server := http.ListenAndServe(":8080", nil)
+	server := http.ListenAndServe(":"+port, corsMiddleware(http.DefaultServeMux, corsOrigin))
+
 	if server != nil {
 		log.Fatal(server)
 	}
@@ -89,7 +65,6 @@ func healthHandler(pool *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		if err := pool.Ping(r.Context()); err != nil {
-			// PostgreSQL is unavailable
 			http.Error(w, `{"status":"unavailable"}`, http.StatusServiceUnavailable)
 			return
 		}
@@ -98,4 +73,19 @@ func healthHandler(pool *pgxpool.Pool) http.HandlerFunc {
 		w.Write([]byte(`{"status":"ok"}`))
 
 	}
+}
+
+func corsMiddleware(next http.Handler, origin string) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
 }
