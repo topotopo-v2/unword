@@ -1,0 +1,327 @@
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #171717;
+  background: #F7F5F0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+}
+
+main {
+  min-height: 100vh;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+header {
+  margin-bottom: 56px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  /*letter-spacing: 0.08em;*/
+}
+
+header p {
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.word-card {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.word-date {
+  margin: 0 0 54px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.country-flag {
+  font-size: 42px;
+  line-height: 1;
+}
+
+.language {
+  margin: 4px 0 48px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.native-script {
+  font-family: 'Noto Serif', serif;
+  margin: 0 0 4px;
+  font-size: 64px;
+  font-weight: 400;
+}
+
+.pronunciation {
+  font-family: 'Lora', serif;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+/*.word {*/
+/*  margin: 0;*/
+/*  font-size: clamp(48px, 10vw, 96px);*/
+/*  line-height: 1;*/
+/*  font-weight: 600;*/
+/*}*/
+
+.definition {
+  margin: 48px 0;
+  max-width: 560px;
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 400;
+  text-align: center;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.navigation {
+  display: flex;
+  justify-content: end;
+  gap: 8px;
+}
+
+.navigation button {
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  padding: 8px 16px;
+  color: #171717;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.navigation button:hover {
+  background: #eae8e2;
+}
+
+.navigation button.active {
+  background: #424242;
+  color: #fff;
+}
+
+.navigation button:focus-visible,
+.unsave-button:focus-visible,
+button:focus-visible {
+  outline: 2px solid #171717;
+  outline-offset: 3px;
+}
+
+.saved-word-card {
+  max-width: 640px;
+  width: 100%;
+  margin: 12px auto;
+
+  display: flex;
+  align-items: flex-start;
+}
+
+.numeric-day {
+  margin: 0;
+  font-size: 24px;
+}
+
+.saved-word-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  height: 1px;
+  width: 76px;
+  background-color: #171717;
+  margin: 14px 14px;
+}
+
+.saved-country-flag {
+  font-size: 28px;
+  line-height: 1;
+  margin-right: 20px;
+}
+
+.saved-native-script {
+  font-family: 'Noto Serif', serif;
+  align-self: flex-start;
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+.saved-word {
+  font-family: 'Lora', serif;
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+.saved-definition {
+  font-size: 18px;
+  margin: 0 0 4px;
+  line-height: 1.4;
+}
+
+.unsave-button {
+  display: flex;
+  height: 48px;
+  width: 48px;
+  border: none;
+  margin: 0 4px;
+  background: transparent;
+  align-items: start;
+}
+
+.save-button {
+  display: flex;
+  border: none;
+  align-items: center;
+  background: transparent;
+  gap: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.saved-words-title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.saved-words-month {
+  margin: 36px 0 30px;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.source-link {
+  color: #171717;
+  font-size: 16px;
+  text-decoration: underline;
+  margin-top: 56px;
+}
+
+.source-link:focus-visible {
+  outline: 2px solid #171717;
+  outline-offset: 3px;
+}
+
+.source-link:hover {
+  opacity: 0.7;
+}
+
+.empty-state {
+  margin: 80px 0;
+  font-size: 20px;
+  text-align: center;
+}
+
+.loading-state {
+  margin: 80px 0;
+  font-size: 20px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: 32px 20px;
+  }
+
+  header {
+    margin-bottom: 40px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  header p {
+    font-size: 16px;
+  }
+
+  .word-date {
+    margin-bottom: 44px;
+    font-size: 18px;
+  }
+
+  .language {
+    font-size: 18px;
+    margin-bottom: 44px;
+  }
+
+  .native-script {
+    font-size: 48px;
+  }
+
+  .pronunciation {
+    font-size: 20px;
+  }
+
+  .definition {
+    margin: 42px 0;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .saved-word-card {
+    align-items: flex-start;
+  }
+
+  .numeric-day {
+    font-size: 20px;
+  }
+
+  .line {
+    width: 24px;
+    margin: 10px 8px;
+  }
+
+  .saved-country-flag {
+    font-size: 24px;
+    margin-right: 12px;
+  }
+
+  .saved-native-script,
+  .saved-word {
+    font-size: 20px;
+  }
+
+  .saved-definition {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .unsave-button {
+    flex-shrink: 0;
+  }
+
+  .navigation {
+    gap: 4px;
+  }
+
+  .navigation button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
