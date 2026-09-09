@@ -14,8 +14,8 @@ services:
       context: .
     ports:
       - "8080:8080"
-    environment:
-      DATABASE_URL: postgres://unword:unword@postgres:5432/unword?sslmode=disable
+    env_file:
+      - .env.docker
     depends_on:
       - postgres
 

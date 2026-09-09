@@ -3,6 +3,7 @@ package word
 import (
 	"context"
 
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"time"
 )
@@ -105,4 +106,68 @@ func (r *Repository) GetByDate(
 	}
 
 	return &w, nil
+}
+
+func (r *Repository) GetWordsByIDs(
+	ctx context.Context,
+	ids []uuid.UUID,
+) ([]Word, error) {
+	rows, err := r.pool.Query(
+		ctx,
+		`
+        SELECT
+            id,
+            word,
+            native_script,
+            pronunciation,
+            language,
+            country,
+            country_code,
+            definition,
+            word_date,
+            source,
+            created_at
+        FROM words
+        WHERE id = ANY($1)
+        ORDER BY word_date DESC
+        `,
+		ids,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	words := make([]Word, 0)
+
+	for rows.Next() {
+		var w Word
+
+		err := rows.Scan(
+			&w.ID,
+			&w.Word,
+			&w.NativeScript,
+			&w.Pronunciation,
+			&w.Language,
+			&w.Country,
+			&w.CountryCode,
+			&w.Definition,
+			&w.WordDate,
+			&w.Source,
+			&w.CreatedAt,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		words = append(words, w)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return words, nil
 }
