@@ -9,7 +9,7 @@ import Header from "./components/Header.tsx";
 import SavedWords from './pages/SavedWords';
 import Navigation from './components/Navigation'
 
-
+// test change on frontend
 function App() {
     const [word, setWord] = useState<Word | null>(null)
     const [saved, setSaved] = useState(false)
@@ -67,11 +67,11 @@ function App() {
                 currentPage={page}
                 onNavigate={setPage}
             />
-            <Header />
+            <Header/>
 
             {page === 'today' && (
                 <>
-                    {loading && <LoadingState message={"Loading today's word..."} />}
+                    {loading && <LoadingState message={"Loading today's word..."}/>}
                     {!loading && error && (
                         <ErrorState
                             message={error}
@@ -90,7 +90,7 @@ function App() {
             )}
 
             {page === 'saved' && (
-                <SavedWords />
+                <SavedWords/>
             )}
         </main>
     )
