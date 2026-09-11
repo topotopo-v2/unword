@@ -1,6 +1,7 @@
 package word
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -12,11 +13,17 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 )
 
-type Handler struct {
-	repository *Repository
+type WordRepository interface {
+	Create(ctx context.Context, word Word) error
+	GetByDate(ctx context.Context, date time.Time) (*Word, error)
+	GetWordsByIDs(ctx context.Context, ids []uuid.UUID) ([]Word, error)
 }
 
-func NewHandler(repository *Repository) *Handler {
+type Handler struct {
+	repository WordRepository
+}
+
+func NewHandler(repository WordRepository) *Handler {
 	return &Handler{
 		repository: repository,
 	}
@@ -92,12 +99,12 @@ func (h *Handler) GetToday(w http.ResponseWriter, r *http.Request) {
 	now := time.Now().In(location)
 
 	today := time.Date(
-        now.Year(),
-        now.Month(),
-        now.Day(),
-        0, 0, 0, 0,
-        time.UTC,
-    )
+		now.Year(),
+		now.Month(),
+		now.Day(),
+		0, 0, 0, 0,
+		time.UTC,
+	)
 
 	word, err := h.repository.GetByDate(
 		r.Context(),
