@@ -2,17 +2,24 @@ package word
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"time"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
-type Repository struct {
-	pool *pgxpool.Pool
+type DB interface {
+	Exec(ctx context.Context, sql string, args ...any) (pgconn.CommandTag, error)
+	QueryRow(ctx context.Context, sql string, args ...any) pgx.Row
+	Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
 }
 
-func NewRepository(pool *pgxpool.Pool) *Repository {
+type Repository struct {
+	pool DB
+}
+
+func NewRepository(pool DB) *Repository {
 	return &Repository{
 		pool: pool,
 	}
