@@ -53,3 +53,14 @@ npm install
 ````
 npm run dev
 ````
+
+### How I made this
+
+I built this website as a way to ease back into coding after almost a year-long break. My goal wasn’t to build everything completely by hand, but to learn and relearn the fundamentals of taking a website from an idea to production.
+
+I started by brainstorming the idea with ChatGPT, then created a rough UI in Figma. From there, I worked through the backend setup using Go, PostgreSQL, database migrations, APIs, and Docker before moving on to the frontend.
+
+Throughout the project, I used ChatGPT more like a guide and pair-programming partner. I asked for explanations, broke larger tasks into smaller steps, discussed implementation options, and got help debugging when I got stuck. I still wrote and tested the code myself, made the implementation decisions, and tried to understand each part before moving on.
+
+The goal of this project is less about building something complex and more about rebuilding my confidence and understanding the full process of developing and shipping a small web application.
+
